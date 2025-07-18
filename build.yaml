@@ -20,6 +20,6 @@
 ---
 include:
   - board: seeeduino_xiao_ble
-    shield: kyria_rev3_left
+    shield: totem_left
   - board: seeeduino_xiao_ble
-    shield: kyria_rev3_right
+    shield: totem_right
