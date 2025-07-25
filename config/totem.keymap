@@ -13,6 +13,14 @@
 #define NAV 2
 
 / {
+    behaviors {
+        l1l2: layer1_layer2 {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp SYM>, <&mo NAV>;
+            mods = <(LSHFT)>;
+        };
+    };
     keymap {
         compatible = "zmk,keymap";
 
@@ -22,12 +30,12 @@
             //              |  qQ    |  wW    |  eE    |  rR    |   tT     |                                |  yY    |  uU    |  iI    |  oO    |  pP    | 
             //              |  aA    |  sS    |  dD    |  fF    |   gG     |                                |  hH    |  jJ    |  kK    |  lL    |   ;:   | 
             // | SHFT TAB   |  zZ    |  xX    |  cC    |  vV    |   bB     |                                |  nN    |  mM    |  ,<    |  .>    |   ALT /?   | CTRL '" |
-            //                                |  ESC`  |  SPC   |  RET     |                                |  BSPC  |  DEL   |  SYM   |
+            //                                |  ESC`  |  SPC   |  RET     |                                |  BSPC  |  DEL   |  L1 L2 |
             bindings = <
                                 &kp Q &kp W     &kp E   &kp R       &kp T                                    &kp Y    &kp U     &kp I     &kp O   &kp P
                                 &kp A &kp S     &kp D   &kp F       &kp G                                    &kp H    &kp J     &kp K     &kp L   &kp SEMI
                 &mt LSHFT TAB   &kp Z &kp X     &kp C   &kp V       &kp B                                    &kp N    &kp M     &kp COMMA &kp DOT &mt RALT FSLH &mt RCTRL APOS
-                                                &gresc  &kp SPACE   &kp RET                                  &kp BSPC &kp DEL   &to SYM
+                                                &gresc  &kp SPACE   &kp RET                                  &kp BSPC &kp DEL   &l1l2
             >;
 
         };
@@ -38,12 +46,12 @@
             //         |  1!   |  2@   |  3#   |   4$   |   5%   |                                          |   6^   |   7&   |   8*   |   9(   |   0)   | 
             //         |  -_   |  =+   |       |        |        |                                          |        |        |        |   [    |   ]    | 
             // | LSHFT |       |       |       |        |        |                                          |        |        |        |        |   ALT  | CTRL |
-            //                         |       |        |        |                                          |        |  BASE  |  NAV   |
+            //                         |       |        |        |                                          |        |        |        |
             bindings = <
-                        &kp N1    &kp N2    &kp N3  &kp N4  &kp N5                                            &kp N6    &kp N7   &kp N8    &kp N9    &kp N0
-                        &kp MINUS &kp EQUAL &none   &none   &none                                             &none     &none    &none     &kp LBKT  &kp RBKT
-            &kp LSHFT   &none     &none     &none   &none   &none                                             &none     &none    &none     &none     &kp RALT &kp RCTRL
-                                            &none   &none   &none                                             &none     &to BASE &to NAV
+                        &kp N1    &kp N2    &kp N3  &kp N4  &kp N5                                            &kp N6    &kp N7  &kp N8    &kp N9    &kp N0
+                        &kp MINUS &kp EQUAL &none   &none   &none                                             &none     &none   &none     &kp LBKT  &kp RBKT
+            &kp LSHFT   &none     &none     &none   &none   &none                                             &none     &none   &none     &none     &kp RALT &kp RCTRL
+                                            &none   &none   &none                                             &none     &none   &none
             >;
 
         };
@@ -54,12 +62,12 @@
             //         |     |     |      |  UP   |       |                                          |      |       |       |      |       | 
             //         |     |     | LEFT |  DOWN | RIGHT |                                          |      |       |       |      |       | 
             // |       |     |     |      |       |       |                                          |      |       |       |      |       |      |
-            //                     |      |       |       |                                          |      | BASE  |  SYM  |
+            //                     |      |       |       |                                          |      |       |       |
             bindings = <
-                        &none &none &none    &kp UP   &none                                           &none &none    &none     &none  &none
-                        &none &none &kp LEFT &kp DOWN &kp RIGHT                                       &none &none    &none     &none  &none
-                &none   &none &none &none    &none    &none                                           &none &none    &none     &none  &none   &none
-                                    &none    &none    &none                                           &none &to BASE &to SYM
+                        &none &none &none    &kp UP   &none                                           &none &none   &none     &none  &none
+                        &none &none &kp LEFT &kp DOWN &kp RIGHT                                       &none &none   &none     &none  &none
+                &none   &none &none &none    &none    &none                                           &none &none   &none     &none  &none   &none
+                                    &none    &none    &none                                           &none &none   &none
             >;
 
         };
