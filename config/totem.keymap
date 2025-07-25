@@ -8,37 +8,69 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 
+#define BASE 0
+#define SYM 1
+#define NAV 2
+
 / {
+    behaviors {
+        l1l2: layer1_layer2 {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&mo SYM>, <&mo NAV>;
+            mods = <(LSHFT)>;
+        };
+    };
     keymap {
         compatible = "zmk,keymap";
 
-        default_layer {
+        base_layer {
+            label = "BASE";
             // ---------------------------------------------------------------------------------------------------------------------------------
-            //         |  Q  |  W  |  E   |  R   |  T   |                                          |  Y   |  U    |  I    |  O   |   P   | 
-            //         |  A  |  S  |  D   |  F   |  G   |                                          |  H   |  J    |  K    |  L   |   ;   | 
-            // | SHIFT |  Z  |  X  |  C   |  V   |  B   |                                          |  N   |  M    |  ,    |  .   |   /   | CTRL |
-            //                            | DEL  | RET  |  SPACE  |                         | TAB  | BSPC | R-ALT |
+            //              |  qQ    |  wW    |  eE    |  rR    |   tT     |                                |  yY    |  uU    |  iI    |  oO    |  pP    | 
+            //              |  aA    |  sS    |  dD    |  fF    |   gG     |                                |  hH    |  jJ    |  kK    |  lL    |   ;:   | 
+            // | SHFT TAB   |  zZ    |  xX    |  cC    |  vV    |   bB     |                                |  nN    |  mM    |  ,<    |  .>    |   ALT /?   | CTRL '" |
+            //                                |  ESC`  |  SPC   |  RET     |                                |  BSPC  |  DEL   |  L1 L2 |
             bindings = <
-                        &kp Q &kp W &kp E &kp R   &kp T                                              &kp Y &kp U  &kp I     &kp O   &kp P
-                        &kp A &kp S &kp D &kp F   &kp G                                              &kp H &kp J  &kp K     &kp L   &kp SEMI
-            &kp LSHFT   &kp Z &kp X &kp C &kp V   &kp B                                              &kp N &kp M  &kp COMMA &kp DOT &kp FSLH &kp RCTRL
-                                          &kp DEL &kp RET &kp SPACE                          &kp TAB &kp BSPC &kp RALT
+                                &kp Q &kp W     &kp E   &kp R       &kp T                                    &kp Y    &kp U     &kp I     &kp O   &kp P
+                                &kp A &kp S     &kp D   &kp F       &kp G                                    &kp H    &kp J     &kp K     &kp L   &kp SEMI
+                &mt LSHFT TAB   &kp Z &kp X     &kp C   &kp V       &kp B                                    &kp N    &kp M     &kp COMMA &kp DOT &mt RALT FSLH &mt RCTRL APOS
+                                                &gresc  &kp SPACE   &kp RET                                  &kp BSPC &kp DEL   &l1l2
             >;
 
         };
-        function_layer {
+
+        sym_layer {
+            label = "SYM";
             // ---------------------------------------------------------------------------------------------------------------------------------
-            //         |      |BT_CLR|BTSEL0|BTSEL1|BTSEL2|                                         |      |      |      |      |      |
-            //         |      |      |BTSEL3|BTSEL4|      |                                         |      |      |      |      |      |
-            // |       |      |      |      |      |      |                                         |      |      |      |      |      |      |
-            //                              |      |      |      |                           |      |      |      |       
+            //         |  1!   |  2@   |  3#   |   4$   |   5%   |                                          |   6^   |   7&   |   8*   |   9(   |   0)   | 
+            //         |  -_   |  =+   |       |        |        |                                          |        |        |        |   [    |   ]    | 
+            // | LSHFT |       |       |       |        |        |                                          |        |        |        |        |   ALT  | CTRL |
+            //                         |       |        |        |                                          |        |        |        |
             bindings = <
-            &trans &trans &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2              &trans &trans &trans &trans &trans &trans
-            &trans &trans &trans     &bt BT_SEL 3 &bt BT_SEL 4 &trans                    &trans &trans &trans &trans &trans &trans
-            &trans &trans &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans &trans &trans &trans
-                                 &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans
+                        &kp N1    &kp N2    &kp N3  &kp N4  &kp N5                                            &kp N6    &kp N7  &kp N8    &kp N9    &kp N0
+                        &kp MINUS &kp EQUAL &none   &none   &none                                             &none     &none   &none     &kp LBKT  &kp RBKT
+            &kp LSHFT   &none     &none     &none   &none   &none                                             &none     &none   &none     &none     &kp RALT &kp RCTRLs
+                                            &none   &none   &none                                             &none     &none   &none
             >;
 
         };
+
+        nav_layer {
+            label = "NAV";
+            // ---------------------------------------------------------------------------------------------------------------------------------
+            //         |     |     |      |  UP   |       |                                          |      |       |       |      |       | 
+            //         |     |     | LEFT |  DOWN | RIGHT |                                          |      |       |       |      |       | 
+            // |       |     |     |      |       |       |                                          |      |       |       |      |       |      |
+            //                     |      |       |       |                                          |      |       |       |
+            bindings = <
+                        &none &none &none    &kp UP   &none                                           &none &none   &none     &none  &none
+                        &none &none &kp LEFT &kp DOWN &kp RIGHT                                       &none &none   &none     &none  &none
+                &none   &none &none &none    &none    &none                                           &none &none   &none     &none  &none   &none
+                                    &none    &none    &none                                           &none &none   &none
+            >;
+
+        };
+
     };
 };
