@@ -16,13 +16,13 @@
     keymap {
         behaviors {
             spgui: space_gui {
-                compatible: "zmk,behavior-mod-morph";
+                compatible = "zmk,behavior-mod-morph";
                 #binding-cells = <0>;
                 bindings = <&kp SPACE>, <&kp LGUI>;
                 mods = <(MOD_LSFT)>;
             };
             bspcus: backspace_underscore {
-                compatible: "zmk,behavior-mod-morph";
+                compatible = "zmk,behavior-mod-morph";
                 #binding-cells = <0>;
                 bindings = <&kp BSPC>, <&kp UNDERSCORE>;
                 mods = <(MOD_LSFT)>;
