@@ -13,29 +13,35 @@
 #define NAV 2
 
 / {
-    behaviors {
-        l1l2: layer1_layer2 {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&kp SYM>, <&mo NAV>;
-            mods = <(LSHFT)>;
-        };
-    };
     keymap {
+        behaviors {
+            spgui: space_gui {
+                compatible: "zmk,behavior-mod-morph";
+                #binding-cells = <0>;
+                bindings = <&kp SPACE>, <&kp LGUI>;
+                mods = <(MOD_LSFT)>;
+            };
+            bspcus: backspace_underscore {
+                compatible: "zmk,behavior-mod-morph";
+                #binding-cells = <0>;
+                bindings = <&kp BSPC>, <&kp UNDERSCORE>;
+                mods = <(MOD_LSFT)>;
+            };
+        };
         compatible = "zmk,keymap";
 
         base_layer {
             label = "BASE";
             // ---------------------------------------------------------------------------------------------------------------------------------
-            //              |  qQ    |  wW    |  eE    |  rR    |   tT     |                                |  yY    |  uU    |  iI    |  oO    |  pP    | 
-            //              |  aA    |  sS    |  dD    |  fF    |   gG     |                                |  hH    |  jJ    |  kK    |  lL    |   ;:   | 
-            // | SHFT TAB   |  zZ    |  xX    |  cC    |  vV    |   bB     |                                |  nN    |  mM    |  ,<    |  .>    |   ALT /?   | CTRL '" |
-            //                                |  ESC`  |  SPC   |  RET     |                                |  BSPC  |  DEL   |  L1 L2 |
+            //              |  qQ    |  wW    |  eE    |  rR     |   tT   |                                |  yY    |  uU    |  iI    |  oO    |  pP    | 
+            //              |  aA    |  sS    |  dD    |  fF     |   gG   |                                |  hH    |  jJ    |  kK    |  lL    |   ;:   | 
+            // | SHFT TAB   |  zZ    |  xX    |  cC    |  vV     |   bB   |                                |  nN    |  mM    |  ,<    |  .>    |   ALT /?   | CTRL '" |
+            //                                |  ESC`  | SPC GUI |  RET   |                                | BSPC _ |  DEL   |  SYM   |
             bindings = <
                                 &kp Q &kp W     &kp E   &kp R       &kp T                                    &kp Y    &kp U     &kp I     &kp O   &kp P
                                 &kp A &kp S     &kp D   &kp F       &kp G                                    &kp H    &kp J     &kp K     &kp L   &kp SEMI
                 &mt LSHFT TAB   &kp Z &kp X     &kp C   &kp V       &kp B                                    &kp N    &kp M     &kp COMMA &kp DOT &mt RALT FSLH &mt RCTRL APOS
-                                                &gresc  &kp SPACE   &kp RET                                  &kp BSPC &kp DEL   &l1l2
+                                                &gresc  &spgui      &kp RET                                  &bspcus  &kp DEL   &to SYM
             >;
 
         };
@@ -44,14 +50,14 @@
             label = "SYM";
             // ---------------------------------------------------------------------------------------------------------------------------------
             //         |  1!   |  2@   |  3#   |   4$   |   5%   |                                          |   6^   |   7&   |   8*   |   9(   |   0)   | 
-            //         |  -_   |  =+   |       |        |        |                                          |        |        |        |   [    |   ]    | 
-            // | LSHFT |       |       |       |        |        |                                          |        |        |        |        |   ALT  | CTRL |
-            //                         |       |        |        |                                          |        |        |        |
+            //         |  -_   |  =+   |  *    |   /?   |   \|   |                                          |        |        |        |   [    |   ]    | 
+            // | LSHFT |       |       |       |        |        |                                          |        |        |   ,<   |   .>   |   ALT  | CTRL |
+            //                         |  `~   |  SPC   |   RET  |                                          |        |  BASE  |   NAV  |
             bindings = <
-                        &kp N1    &kp N2    &kp N3  &kp N4  &kp N5                                            &kp N6    &kp N7  &kp N8    &kp N9    &kp N0
-                        &kp MINUS &kp EQUAL &none   &none   &none                                             &none     &none   &none     &kp LBKT  &kp RBKT
-            &kp LSHFT   &none     &none     &none   &none   &none                                             &none     &none   &none     &none     &kp RALT &kp RCTRL
-                                            &none   &none   &none                                             &none     &none   &none
+                        &kp N1    &kp N2    &kp N3    &kp N4    &kp N5                                        &kp N6  &kp N7   &kp N8    &kp N9    &kp N0
+                        &kp MINUS &kp EQUAL &kp STAR  &kp FSLH  &kp BSLH                                      &none   &none    &none     &kp LBKT  &kp RBKT
+            &kp LSHFT   &none     &none     &none     &none     &none                                         &none   &none    &kp COMMA &kp DOT   &kp RALT &kp RCTRL
+                                            &kp GRAVE &kp SPACE &kp RET                                       &none   &to BASE &to NAV
             >;
 
         };
@@ -59,15 +65,15 @@
         nav_layer {
             label = "NAV";
             // ---------------------------------------------------------------------------------------------------------------------------------
-            //         |     |     |      |  UP   |       |                                          |      |       |       |      |       | 
-            //         |     |     | LEFT |  DOWN | RIGHT |                                          |      |       |       |      |       | 
-            // |       |     |     |      |       |       |                                          |      |       |       |      |       |      |
-            //                     |      |       |       |                                          |      |       |       |
+            //         |     |     |      |  UP   |       |                                          |  F1  |  F2   |  F3   |  F4  |  F5   | 
+            //         |     |     | LEFT |  DOWN | RIGHT |                                          |  F6  |  F7   |  F8   |  F9  |  F10  | 
+            // | LSHFT |     |     |      |       |       |                                          |  F11 |  F12  |       |      |  ALT  | CTRL |
+            //                     |      |       |       |                                          | CAPS |  BASE |  SYM  |
             bindings = <
-                        &none &none &none    &kp UP   &none                                           &none &none   &none     &none  &none
-                        &none &none &kp LEFT &kp DOWN &kp RIGHT                                       &none &none   &none     &none  &none
-                &none   &none &none &none    &none    &none                                           &none &none   &none     &none  &none   &none
-                                    &none    &none    &none                                           &none &none   &none
+                        &none &none &none    &kp UP   &none                                           &kp F1   &kp F2   &kp F3  &kp F4  &kp F5
+                        &none &none &kp LEFT &kp DOWN &kp RIGHT                                       &kp F6   &kp F7   &kp F8  &kp F9  &kp F10
+            &kp LSHFT   &none &none &none    &none    &none                                           &kp F11  &kp F12  &none   &none   &kp RALT &kp RCTRL
+                                    &none    &none    &none                                           &kp CAPS &to BASE &to SYM
             >;
 
         };
