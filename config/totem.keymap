@@ -14,6 +14,7 @@
 
 / {
     keymap {
+        compatible = "zmk,keymap";
         behaviors {
             spgui: space_gui {
                 compatible = "zmk,behavior-mod-morph";
@@ -28,7 +29,6 @@
                 mods = <(MOD_LSFT)>;
             };
         };
-        compatible = "zmk,keymap";
 
         base_layer {
             label = "BASE";
